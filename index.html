@@ -4,20 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entra ID SSO Application Onboarding Form</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Microsoft Entra ID SSO Application Onboarding Form</h1>
-            <p class="subtitle">Please provide the following information to set up Single Sign-On for your application.</p>
-            <p class="subtitle">Fill out as much information as you can, we can work together to find out the rest.</p>
+            <div class="header-content">
+                <h1>Microsoft Entra ID SSO Application Onboarding Form</h1>
+                <p class="subtitle">Please provide the following information to set up Single Sign-On for your application.</p>
+                <p class="subtitle">Fill out as much information as you can, we can work together to find out the rest.</p>
+            </div>
+            <div class="header-logo">
+                <img src="https://store-images.s-microsoft.com/image/apps.7945.ec018051-19a6-4bf1-9312-8a7e48560d7a.f6836886-9a77-4c17-b7ff-d251f938caf7.72c6d711-c534-43c8-ba0e-27533e3d2889" alt="Onevinn Logo">
+            </div>
         </header>
 
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p class="progress-text">Form Completion: <span id="progressPercent">0%</span></p>
         </div>
-        <p class="progress-text">Form Completion: <span id="progressPercent">0%</span></p>
 
         <form id="ssoForm">
             <!-- Section 1: General Information -->
