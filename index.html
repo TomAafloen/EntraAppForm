@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entra ID SSO Application Onboarding Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Microsoft Entra ID SSO Application Onboarding Form</h1>
+            <p class="subtitle">Please provide the following information to set up Single Sign-On for your application.</p>
+            <p class="subtitle">Fill out as much information as you can, we can work together to find out the rest.</p>
+        </header>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="progress-text">Form Completion: <span id="progressPercent">0%</span></p>
+
+        <form id="ssoForm">
+            <!-- Section 1: General Information -->
+            <section class="form-section">
+                <h2>1. General Application Information</h2>
+                
+                <div class="form-group">
+                    <label for="appName">Application Name <span class="required">*</span></label>
+                    <input type="text" id="appName" name="appName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appType">Application Type <span class="required">*</span></label>
+                    <select id="appType" name="appType" required>
+                        <option value="">-- Select Type --</option>
+                        <option value="saas">SaaS Application</option>
+                        <option value="custom">Custom Web Application</option>
+                        <option value="onprem">On-Premises Application</option>
+                        <option value="mobile">Mobile Application</option>
+                        <option value="api">API/Web Service</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="appUrl">Application URL</label>
+                    <input type="url" id="appUrl" name="appUrl" placeholder="https://example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="appDescription">Application Description</label>
+                    <textarea id="appDescription" name="appDescription" rows="3" placeholder="Brief description of the application and its purpose"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="businessOwner">Business Owner / Requestor <span class="required">*</span></label>
+                    <input type="text" id="businessOwner" name="businessOwner" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ownerEmail">Owner Email <span class="required">*</span></label>
+                    <input type="email" id="ownerEmail" name="ownerEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="technicalContact">Internal Technical Contact</label>
+                    <input type="text" id="technicalContact" name="technicalContact">
+                </div>
+
+                <div class="form-group">
+                    <label for="technicalEmail">Internal Technical Contact Email</label>
+                    <input type="email" id="technicalEmail" name="technicalEmail">
+                </div>
+
+                <div class="form-group">
+                    <label for="vendorContact">Vendor Technical Contact</label>
+                    <input type="text" id="vendorContact" name="vendorContact">
+                </div>
+
+                <div class="form-group">
+                    <label for="vendorEmail">Vendor Technical Contact Email</label>
+                    <input type="email" id="vendorEmail" name="vendorEmail">
+                </div>
+            </section>
+
+            <!-- Section 2: SSO Protocol -->
+            <section class="form-section">
+                <h2>2. SSO Protocol Information</h2>
+                
+                <div class="form-group">
+                    <label for="vendorSsoDocUrl">Vendor SSO Documentation URL</label>
+                    <input type="url" id="vendorSsoDocUrl" name="vendorSsoDocUrl" placeholder="https://vendor.com/docs/sso-setup">
+                    <small>Link to the vendor's SSO setup guide or documentation (if available)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="ssoProtocol">SSO Protocol <span class="required">*</span></label>
+                    <select id="ssoProtocol" name="ssoProtocol" required>
+                        <option value="">-- Select Protocol --</option>
+                        <option value="saml">SAML 2.0</option>
+                        <option value="oidc">OpenID Connect (OIDC)</option>
+                        <option value="oauth">OAuth 2.0</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div id="otherProtocolGroup" class="form-group" style="display: none;">
+                    <label for="otherProtocol">Please Specify Protocol</label>
+                    <input type="text" id="otherProtocol" name="otherProtocol">
+                </div>
+            </section>
+
+            <!-- Section 3: SAML Configuration -->
+            <section class="form-section" id="samlSection" style="display: none;">
+                <h2>3. SAML 2.0 Configuration</h2>
+                
+                <div class="form-group">
+                    <label for="samlEntityId">Entity ID / Issuer <span class="required">*</span></label>
+                    <input type="text" id="samlEntityId" name="samlEntityId" placeholder="urn:example:app or https://app.example.com">
+                    <small>The unique identifier for your application</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="samlAcsUrl">Assertion Consumer Service (ACS) URL <span class="required">*</span></label>
+                    <input type="url" id="samlAcsUrl" name="samlAcsUrl" placeholder="https://app.example.com/saml/acs">
+                    <small>The endpoint where SAML assertions are posted</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="samlSignOnUrl">Sign-On URL</label>
+                    <input type="url" id="samlSignOnUrl" name="samlSignOnUrl" placeholder="https://app.example.com/saml/login">
+                </div>
+
+                <div class="form-group">
+                    <label for="samlLogoutUrl">Single Logout URL</label>
+                    <input type="url" id="samlLogoutUrl" name="samlLogoutUrl" placeholder="https://app.example.com/saml/logout">
+                </div>
+
+                <div class="form-group">
+                    <label for="samlRelayState">Relay State</label>
+                    <input type="text" id="samlRelayState" name="samlRelayState">
+                    <small>Optional parameter to redirect users after authentication</small>
+                </div>
+
+                <div class="form-group">
+                    <label>SAML Assertion Signature</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="samlSignAssertion" value="yes"> Sign SAML Assertion</label>
+                        <label><input type="radio" name="samlSignAssertion" value="no" checked> Do not sign SAML Assertion</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>SAML Response Signature</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="samlSignResponse" value="yes" checked> Sign SAML Response</label>
+                        <label><input type="radio" name="samlSignResponse" value="no"> Do not sign SAML Response</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="samlSigningAlgorithm">Signing Algorithm</label>
+                    <select id="samlSigningAlgorithm" name="samlSigningAlgorithm">
+                        <option value="SHA-256">SHA-256 (Recommended)</option>
+                        <option value="SHA-1">SHA-1</option>
+                        <option value="SHA-512">SHA-512</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="samlNameIdFormat">NameID Format</label>
+                    <select id="samlNameIdFormat" name="samlNameIdFormat">
+                        <option value="emailAddress">Email Address</option>
+                        <option value="upn">UPN (User Principal Name)</option>
+                        <option value="objectId">ObjectID</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="samlAttributes">Required SAML Attributes/Claims (Add additional or modify default)</label>
+                    <textarea id="samlAttributes" name="samlAttributes" rows="8" placeholder="Add additional attributes or modify the defaults listed below"></textarea>
+                    <small>Default attributes included by Entra ID:<br>
+                    • user.userprincipalname → http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier<br>
+                    • user.mail → http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress<br>
+                    • user.givenname → http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname<br>
+                    • user.surname → http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname<br>
+                    • user.displayname → http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name<br>
+                    <br>Add any additional attributes needed or modifications to the defaults above (format: source attribute → claim URI)</small>
+                </div>
+            </section>
+
+            <!-- Section 4: OIDC/OAuth Configuration -->
+            <section class="form-section" id="oidcSection" style="display: none;">
+                <h2>4. OpenID Connect / OAuth 2.0 Configuration</h2>
+                
+                <div class="form-group">
+                    <label for="oidcRedirectUri">Redirect URI(s) <span class="required">*</span></label>
+                    <textarea id="oidcRedirectUri" name="oidcRedirectUri" rows="3" placeholder="https://app.example.com/callback&#10;https://app.example.com/auth/callback"></textarea>
+                    <small>Enter one or more redirect URIs (one per line)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="oidcLogoutUri">Post Logout Redirect URI</label>
+                    <input type="url" id="oidcLogoutUri" name="oidcLogoutUri" placeholder="https://app.example.com/logout">
+                </div>
+
+                <div class="form-group">
+                    <label for="oidcAppType">Application Type</label>
+                    <select id="oidcAppType" name="oidcAppType">
+                        <option value="web">Web Application (server-side)</option>
+                        <option value="spa">Single Page Application (SPA)</option>
+                        <option value="native">Native/Mobile Application</option>
+                        <option value="daemon">Daemon/Service Application</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Grant Types Required</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="grantAuthCode" value="authorization_code"> Authorization Code</label>
+                        <label><input type="checkbox" name="grantImplicit" value="implicit"> Implicit</label>
+                        <label><input type="checkbox" name="grantClientCreds" value="client_credentials"> Client Credentials</label>
+                        <label><input type="checkbox" name="grantRefreshToken" value="refresh_token"> Refresh Token</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="oidcScopes">Required Scopes</label>
+                    <textarea id="oidcScopes" name="oidcScopes" rows="3" placeholder="openid&#10;profile&#10;email&#10;User.Read"></textarea>
+                    <small>List the required OAuth scopes (one per line)</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Token Configuration</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="tokenIdToken" value="id_token"> ID Token</label>
+                        <label><input type="checkbox" name="tokenAccessToken" value="access_token" checked> Access Token</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="oidcClaims">Required Claims in Token</label>
+                    <textarea id="oidcClaims" name="oidcClaims" rows="4" placeholder="email&#10;name&#10;groups&#10;roles"></textarea>
+                    <small>List the claims your application needs in the token</small>
+                </div>
+            </section>
+
+            <!-- Section 5: User Assignment & Access -->
+            <section class="form-section">
+                <h2>5. User Assignment & Access Control</h2>
+                
+                <div class="form-group">
+                    <label>User Assignment Required</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="userAssignmentRequired" value="yes" checked> Yes - Only assigned users/groups can access</label>
+                        <label><input type="radio" name="userAssignmentRequired" value="no"> No - All users in directory can access</label>
+                    </div>
+                    <small>Recommended: Yes, for better security control</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="assignedGroups">Security Groups to Assign</label>
+                    <textarea id="assignedGroups" name="assignedGroups" rows="3" placeholder="IT-Department&#10;Sales-Team&#10;Administrators"></textarea>
+                    <small>List the groups that should have access (one per line)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="assignedUsers">Specific Users to Assign</label>
+                    <textarea id="assignedUsers" name="assignedUsers" rows="3" placeholder="john.doe@company.com&#10;jane.smith@company.com"></textarea>
+                    <small>List specific users that should have access (one per line)</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Application Roles Required</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="rolesRequired" value="yes"> Yes - Application uses role-based access</label>
+                        <label><input type="radio" name="rolesRequired" value="no" checked> No - No role differentiation needed</label>
+                    </div>
+                </div>
+
+                <div id="rolesGroup" class="form-group" style="display: none;">
+                    <label for="appRoles">Application Roles</label>
+                    <textarea id="appRoles" name="appRoles" rows="4" placeholder="Admin - Full access to all features&#10;User - Standard user access&#10;ReadOnly - View-only access"></textarea>
+                    <small>List the roles and their descriptions (format: RoleName - Description)</small>
+                </div>
+            </section>
+
+            <!-- Section 6: Additional Configuration -->
+            <section class="form-section">
+                <h2>6. Additional Configuration</h2>
+                
+                <div class="form-group">
+                    <label for="homepageUrl">MyApps Portal Sign-On URL</label>
+                    <input type="url" id="homepageUrl" name="homepageUrl" placeholder="https://app.example.com">
+                    <small>The URL users will be directed to when launching the app from MyApps portal</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="logoUrl">Application Logo URL</label>
+                    <input type="url" id="logoUrl" name="logoUrl" placeholder="https://example.com/logo.png">
+                    <small>PNG format, 215x215 pixels recommended</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="supportEmail">Application Support Email</label>
+                    <input type="email" id="supportEmail" name="supportEmail">
+                </div>
+
+                <div class="form-group">
+                    <label for="privacyUrl">Privacy Statement URL</label>
+                    <input type="url" id="privacyUrl" name="privacyUrl" placeholder="https://example.com/privacy">
+                </div>
+
+                <div class="form-group">
+                    <label for="termsUrl">Terms of Service URL</label>
+                    <input type="url" id="termsUrl" name="termsUrl" placeholder="https://example.com/terms">
+                </div>
+
+                <div class="form-group">
+                    <label>Provisioning Required</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="provisioningRequired" value="yes"> Yes - Automatic user provisioning needed (SCIM)</label>
+                        <label><input type="radio" name="provisioningRequired" value="no" checked> No - Manual or Just-In-Time provisioning</label>
+                    </div>
+                </div>
+
+                <div id="provisioningGroup" class="form-group" style="display: none;">
+                    <label for="scimEndpoint">SCIM Endpoint URL</label>
+                    <input type="url" id="scimEndpoint" name="scimEndpoint" placeholder="https://app.example.com/scim/v2">
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalNotes">Additional Notes / Special Requirements</label>
+                    <textarea id="additionalNotes" name="additionalNotes" rows="4" placeholder="Any additional information, special requirements, or questions"></textarea>
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="button" id="exportProgressBtn" class="btn-secondary">💾 Export Progress to File</button>
+                <button type="button" id="importProgressBtn" class="btn-secondary">📁 Import Progress from File</button>
+                <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                <button type="button" id="exportBtn" class="btn-secondary">📄 Export to HTML</button>
+                <button type="button" id="clearBtn" class="btn-danger">🗑️ Clear Form</button>
+            </div>
+        </form>
+
+        <div id="successMessage" class="success-message" style="display: none;">
+            <h3>✓ Form Saved Successfully!</h3>
+            <p>Your SSO application onboarding form has been saved. You can export it to HTML or export progress to share with others.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
