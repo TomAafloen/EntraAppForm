@@ -175,21 +175,26 @@ function loadFormData() {
 function updateProgress() {
     const form = document.getElementById('ssoForm');
     const requiredFields = form.querySelectorAll('[required]');
-    const allInputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], select, textarea');
+    const allInputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="url"], input[type="date"], textarea');
     
     let filledRequired = 0;
     let totalFilled = 0;
     
     requiredFields.forEach(field => {
-        if (field.value.trim() !== '') filledRequired++;
+        if (field.value.trim() !== '' && field.value !== field.defaultValue) {
+            filledRequired++;
+        }
     });
     
     allInputs.forEach(input => {
-        if (input.value.trim() !== '') totalFilled++;
+        // Only count if value is different from default/placeholder and not empty
+        if (input.value.trim() !== '' && input.value !== input.defaultValue) {
+            totalFilled++;
+        }
     });
     
-    const requiredPercent = (filledRequired / requiredFields.length) * 100;
-    const overallPercent = (totalFilled / allInputs.length) * 100;
+    const requiredPercent = requiredFields.length > 0 ? (filledRequired / requiredFields.length) * 100 : 0;
+    const overallPercent = allInputs.length > 0 ? (totalFilled / allInputs.length) * 100 : 0;
     
     // Use overall percentage for progress bar
     const progressFill = document.getElementById('progressFill');
