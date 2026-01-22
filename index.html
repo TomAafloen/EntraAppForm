@@ -140,13 +140,13 @@
                 
                 <div class="form-group">
                     <label for="samlEntityId">Entity ID / Issuer <span class="required">*</span></label>
-                    <input type="text" id="samlEntityId" name="samlEntityId" placeholder="urn:example:app or https://app.example.com">
+                    <input type="text" id="samlEntityId" name="samlEntityId" placeholder="urn:example:app or https://app.example.com" required>
                     <small>The unique identifier for your application</small>
                 </div>
 
                 <div class="form-group">
                     <label for="samlAcsUrl">Assertion Consumer Service (ACS) URL <span class="required">*</span></label>
-                    <input type="url" id="samlAcsUrl" name="samlAcsUrl" placeholder="https://app.example.com/saml/acs">
+                    <input type="url" id="samlAcsUrl" name="samlAcsUrl" placeholder="https://app.example.com/saml/acs" required>
                     <small>The endpoint where SAML assertions are posted</small>
                 </div>
 
@@ -195,7 +195,7 @@
                 
                 <div class="form-group">
                     <label for="oidcRedirectUri">Redirect URI(s) <span class="required">*</span></label>
-                    <textarea id="oidcRedirectUri" name="oidcRedirectUri" rows="3" placeholder="https://app.example.com/callback&#10;https://app.example.com/auth/callback"></textarea>
+                    <textarea id="oidcRedirectUri" name="oidcRedirectUri" rows="3" placeholder="https://app.example.com/callback&#10;https://app.example.com/auth/callback" required></textarea>
                     <small>Enter one or more redirect URIs (one per line)</small>
                 </div>
 
