@@ -437,7 +437,6 @@ function generateHtmlReport(data) {
         ${createInfoRow('Sign-On URL', data.samlSignOnUrl)}
         ${createInfoRow('Single Logout URL', data.samlLogoutUrl)}
         ${createInfoRow('Relay State', data.samlRelayState)}
-        ${createInfoRow('Sign SAML Assertion', data.samlSignAssertion)}
         ${createInfoRow('Sign SAML Response', data.samlSignResponse)}
         ${createInfoRow('Signing Algorithm', data.samlSigningAlgorithm)}
         ${createInfoRow('NameID Format', data.samlNameIdFormat)}
