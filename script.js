@@ -267,7 +267,20 @@ function loadFormData() {
 // Calculate and update progress
 function updateProgress() {
     const form = document.getElementById('ssoForm');
-    const requiredFields = form.querySelectorAll('[required]');
+    const allRequiredFields = form.querySelectorAll('[required]');
+    
+    // Filter to only visible required fields
+    const requiredFields = Array.from(allRequiredFields).filter(field => {
+        // Check if the field itself and all its parents are visible
+        let element = field;
+        while (element && element !== form) {
+            if (element.style && element.style.display === 'none') {
+                return false;
+            }
+            element = element.parentElement;
+        }
+        return true;
+    });
     
     let filledRequired = 0;
     
