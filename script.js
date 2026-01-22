@@ -531,8 +531,6 @@ function generateHtmlReport(data) {
         ${createInfoRow('Sign-On URL', data.samlSignOnUrl)}
         ${createInfoRow('Single Logout URL', data.samlLogoutUrl)}
         ${createInfoRow('Relay State', data.samlRelayState)}
-        ${createInfoRow('Sign SAML Response', data.samlSignResponse)}
-        ${createInfoRow('Signing Algorithm', data.samlSigningAlgorithm)}
         ${createInfoRow('NameID Format', data.samlNameIdFormat)}
         ${createInfoRow('Required SAML Attributes/Claims', data.samlAttributes)}
         ` : ''}
@@ -556,13 +554,11 @@ function generateHtmlReport(data) {
         ${data.rolesRequired === 'yes' ? createInfoRow('Application Roles', data.appRoles) : ''}
 
         <h2>6. Additional Configuration</h2>
-        ${createInfoRow('MyApps Portal Sign-On URL', data.homepageUrl)}
         ${createInfoRow('Application Logo URL', data.logoUrl)}
         ${createInfoRow('Application Support Email', data.supportEmail)}
-        ${createInfoRow('Privacy Statement URL', data.privacyUrl)}
-        ${createInfoRow('Terms of Service URL', data.termsUrl)}
         ${createInfoRow('Provisioning Required', data.provisioningRequired)}
         ${data.provisioningRequired === 'yes' ? createInfoRow('SCIM Endpoint URL', data.scimEndpoint) : ''}
+        ${data.provisioningRequired === 'yes' ? '<div class="info-row"><span class="label">Secret Token:</span><span class="value" style="color: #ff4757;"><strong>⚠️ To be provided separately through secure channel</strong></span></div>' : ''}
         ${createInfoRow('Additional Notes / Special Requirements', data.additionalNotes)}
     </div>
 </body>

@@ -31,6 +31,7 @@
             <!-- Section 1: General Information -->
             <section class="form-section">
                 <h2>1. General Application Information</h2>
+                <p class="section-note">📝 <strong>To be completed by:</strong> Internal Application Owner</p>
                 
                 <div class="form-group">
                     <label for="appName">Application Name <span class="required">*</span></label>
@@ -93,6 +94,7 @@
             <!-- Section 2: SSO Protocol -->
             <section class="form-section">
                 <h2>2. SSO Protocol Information</h2>
+                <p class="section-note">📝 <strong>To be completed by:</strong> Application Vendor or Internal Technical Contact</p>
                 
                 <div class="form-group">
                     <label for="vendorSsoDocUrl">Vendor SSO Documentation URL</label>
@@ -134,6 +136,7 @@
             <!-- Section 3: SAML Configuration -->
             <section class="form-section" id="samlSection" style="display: none;">
                 <h2>3. SAML 2.0 Configuration</h2>
+                <p class="section-note">📝 <strong>To be completed by:</strong> Application Vendor</p>
                 
                 <div class="form-group">
                     <label for="samlEntityId">Entity ID / Issuer <span class="required">*</span></label>
@@ -164,23 +167,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label>SAML Response Signature</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="samlSignResponse" value="yes" checked> Sign SAML Response</label>
-                        <label><input type="radio" name="samlSignResponse" value="no"> Do not sign SAML Response</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="samlSigningAlgorithm">Signing Algorithm</label>
-                    <select id="samlSigningAlgorithm" name="samlSigningAlgorithm">
-                        <option value="SHA-256">SHA-256 (Recommended)</option>
-                        <option value="SHA-1">SHA-1</option>
-                        <option value="SHA-512">SHA-512</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
                     <label for="samlNameIdFormat">NameID Format</label>
                     <select id="samlNameIdFormat" name="samlNameIdFormat">
                         <option value="emailAddress">Email Address</option>
@@ -205,6 +191,7 @@
             <!-- Section 4: OIDC/OAuth Configuration -->
             <section class="form-section" id="oidcSection" style="display: none;">
                 <h2>4. OpenID Connect / OAuth 2.0 Configuration</h2>
+                <p class="section-note">📝 <strong>To be completed by:</strong> Application Vendor</p>
                 
                 <div class="form-group">
                     <label for="oidcRedirectUri">Redirect URI(s) <span class="required">*</span></label>
@@ -261,6 +248,7 @@
             <!-- Section 5: User Assignment & Access -->
             <section class="form-section">
                 <h2>5. User Assignment & Access Control</h2>
+                <p class="section-note">📝 <strong>To be completed by:</strong> Internal Application Owner</p>
                 
                 <div class="form-group">
                     <label>User Assignment Required</label>
@@ -293,21 +281,20 @@
 
                 <div id="rolesGroup" class="form-group" style="display: none;">
                     <label for="appRoles">Application Roles</label>
-                    <textarea id="appRoles" name="appRoles" rows="4" placeholder="Admin - Full access to all features&#10;User - Standard user access&#10;ReadOnly - View-only access"></textarea>
-                    <small>List the roles and their descriptions (format: RoleName - Description)</small>
+                    <textarea id="appRoles" name="appRoles" rows="6" placeholder="Display Name: Admin&#10;Value: admin&#10;Description: Full access to all features&#10;&#10;Display Name: User&#10;Value: user&#10;Description: Standard user access"></textarea>
+                    <small><strong>Format for each role:</strong><br>
+                    Display Name: [Name shown to users]<br>
+                    Value: [technical value - no spaces allowed]<br>
+                    Description: [What this role can do]<br>
+                    <br>Leave a blank line between roles.</small>
                 </div>
             </section>
 
             <!-- Section 6: Additional Configuration -->
             <section class="form-section">
                 <h2>6. Additional Configuration</h2>
+                <p class="section-note">📝 <strong>To be completed by:</strong> Internal Application Owner or Vendor</p>
                 
-                <div class="form-group">
-                    <label for="homepageUrl">MyApps Portal Sign-On URL</label>
-                    <input type="url" id="homepageUrl" name="homepageUrl" placeholder="https://app.example.com">
-                    <small>The URL users will be directed to when launching the app from MyApps portal</small>
-                </div>
-
                 <div class="form-group">
                     <label for="logoUrl">Application Logo URL</label>
                     <input type="url" id="logoUrl" name="logoUrl" placeholder="https://example.com/logo.png">
@@ -317,16 +304,6 @@
                 <div class="form-group">
                     <label for="supportEmail">Application Support Email</label>
                     <input type="email" id="supportEmail" name="supportEmail">
-                </div>
-
-                <div class="form-group">
-                    <label for="privacyUrl">Privacy Statement URL</label>
-                    <input type="url" id="privacyUrl" name="privacyUrl" placeholder="https://example.com/privacy">
-                </div>
-
-                <div class="form-group">
-                    <label for="termsUrl">Terms of Service URL</label>
-                    <input type="url" id="termsUrl" name="termsUrl" placeholder="https://example.com/terms">
                 </div>
 
                 <div class="form-group">
@@ -340,6 +317,11 @@
                 <div id="provisioningGroup" class="form-group" style="display: none;">
                     <label for="scimEndpoint">SCIM Endpoint URL</label>
                     <input type="url" id="scimEndpoint" name="scimEndpoint" placeholder="https://app.example.com/scim/v2">
+                    <div class="provisioning-warning">
+                        <strong>🔒 Security Note:</strong> A Secret Token will be required for SCIM provisioning.<br>
+                        <strong>DO NOT</strong> include the secret token in this form.<br>
+                        Please send it securely to the Entra ID team through a separate secure channel (e.g., encrypted email or secure messaging).
+                    </div>
                 </div>
 
                 <div class="form-group">

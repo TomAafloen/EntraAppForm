@@ -301,6 +301,35 @@ input[type="file"]:focus {
     color: #ff4757;
 }
 
+.section-note {
+    margin: -8px 0 20px 0;
+    padding: 12px 16px;
+    background: rgba(0, 212, 255, 0.05);
+    border-left: 3px solid var(--primary-color);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.section-note strong {
+    color: var(--primary-color);
+}
+
+.provisioning-warning {
+    margin-top: 12px;
+    padding: 14px;
+    background: rgba(255, 71, 87, 0.1);
+    border: 2px solid #ff4757;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+.provisioning-warning strong {
+    color: #ff4757;
+}
+
 /* Radio and Checkbox Groups */
 .radio-group,
 .checkbox-group {
