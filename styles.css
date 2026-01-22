@@ -247,6 +247,60 @@ textarea {
     min-height: 80px;
 }
 
+input[type="file"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: rgba(5, 11, 21, 0.6);
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+input[type="file"]:hover {
+    border-color: var(--primary-color);
+    background: rgba(0, 212, 255, 0.05);
+}
+
+input[type="file"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+
+.file-info {
+    background: rgba(255, 185, 0, 0.05);
+    border-left: 3px solid #ffb900;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 6px;
+    display: block;
+    line-height: 1.6;
+}
+
+.file-status {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.file-status.success {
+    background: rgba(16, 255, 0, 0.1);
+    border: 1px solid #10ff00;
+    color: #10ff00;
+}
+
+.file-status.error {
+    background: rgba(255, 71, 87, 0.1);
+    border: 1px solid #ff4757;
+    color: #ff4757;
+}
+
 /* Radio and Checkbox Groups */
 .radio-group,
 .checkbox-group {

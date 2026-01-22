@@ -26,11 +26,14 @@ function setupEventListeners() {
     const form = document.getElementById('ssoForm');
     
     // Auto-save on input change
-    form.addEventListener('input', debounce(function() {
-        saveFormData();
-        updateProgress();
-        hasUnsavedChanges = true;
-        updateExportWarning();
+    form.addEventListener('input', debounce(function(e) {
+        // Skip file inputs in auto-save (handled separately)
+        if (e.target.type !== 'file') {
+            saveFormData();
+            updateProgress();
+            hasUnsavedChanges = true;
+            updateExportWarning();
+        }
     }, 500));
     
     // Dynamic form sections based on selections
@@ -38,6 +41,9 @@ function setupEventListeners() {
     document.getElementById('appType').addEventListener('change', saveFormData);
     document.querySelector('input[name="rolesRequired"]').parentElement.parentElement.addEventListener('change', handleRolesChange);
     document.querySelector('input[name="provisioningRequired"]').parentElement.parentElement.addEventListener('change', handleProvisioningChange);
+    
+    // File upload handler
+    document.getElementById('vendorDocFile').addEventListener('change', handleFileUpload);
     
     // Button actions
     document.getElementById('exportProgressBtn').addEventListener('click', exportProgressToFile);
@@ -93,6 +99,85 @@ function handleProvisioningChange(e) {
     }
 }
 
+// Handle file upload
+function handleFileUpload(e) {
+    const file = e.target.files[0];
+    const fileStatus = document.getElementById('fileStatus');
+    
+    if (!file) {
+        fileStatus.style.display = 'none';
+        return;
+    }
+    
+    // Check file size (5MB limit)
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    if (file.size > maxSize) {
+        fileStatus.className = 'file-status error';
+        fileStatus.textContent = `❌ File too large! Maximum size is 5MB. Your file is ${(file.size / 1024 / 1024).toFixed(2)}MB.`;
+        fileStatus.style.display = 'block';
+        e.target.value = ''; // Clear the input
+        
+        // Clear from storage
+        const formId = getFormId();
+        const savedData = localStorage.getItem(`formData_${formId}`);
+        if (savedData) {
+            const data = JSON.parse(savedData);
+            delete data.vendorDocFile;
+            delete data.vendorDocFileName;
+            delete data.vendorDocFileType;
+            localStorage.setItem(`formData_${formId}`, JSON.stringify(data));
+        }
+        return;
+    }
+    
+    // Read file as base64
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const base64Data = event.target.result;
+        
+        // Save to localStorage
+        const formId = getFormId();
+        const savedData = localStorage.getItem(`formData_${formId}`);
+        const data = savedData ? JSON.parse(savedData) : {};
+        
+        data.vendorDocFile = base64Data;
+        data.vendorDocFileName = file.name;
+        data.vendorDocFileType = file.type;
+        data.vendorDocFileSize = file.size;
+        data.timestamp = new Date().toISOString();
+        
+        try {
+            localStorage.setItem(`formData_${formId}`, JSON.stringify(data));
+            
+            fileStatus.className = 'file-status success';
+            fileStatus.textContent = `✓ File attached successfully: ${file.name} (${(file.size / 1024).toFixed(2)}KB)`;
+            fileStatus.style.display = 'block';
+            
+            hasUnsavedChanges = true;
+            updateExportWarning();
+        } catch (error) {
+            // Likely quota exceeded
+            fileStatus.className = 'file-status error';
+            fileStatus.textContent = '❌ Storage quota exceeded! File is too large for browser storage. Try a smaller file.';
+            fileStatus.style.display = 'block';
+            e.target.value = '';
+            
+            delete data.vendorDocFile;
+            delete data.vendorDocFileName;
+            delete data.vendorDocFileType;
+            delete data.vendorDocFileSize;
+        }
+    };
+    
+    reader.onerror = function() {
+        fileStatus.className = 'file-status error';
+        fileStatus.textContent = '❌ Error reading file. Please try again.';
+        fileStatus.style.display = 'block';
+    };
+    
+    reader.readAsDataURL(file);
+}
+
 // Save form data to localStorage
 function saveFormData() {
     const formId = getFormId();
@@ -146,10 +231,18 @@ function loadFormData() {
             } else if (element.type === 'radio') {
                 const radio = form.querySelector(`input[name="${key}"][value="${data[key]}"]`);
                 if (radio) radio.checked = true;
-            } else {
+            } else if (element.type !== 'file') {
                 element.value = data[key];
             }
         }
+    }
+    
+    // Display file status if file is attached
+    if (data.vendorDocFileName) {
+        const fileStatus = document.getElementById('fileStatus');
+        fileStatus.className = 'file-status success';
+        fileStatus.textContent = `✓ File attached: ${data.vendorDocFileName} (${(data.vendorDocFileSize / 1024).toFixed(2)}KB)`;
+        fileStatus.style.display = 'block';
     }
     
     // Trigger protocol change to show correct sections
@@ -427,6 +520,7 @@ function generateHtmlReport(data) {
 
         <h2>2. SSO Protocol Information</h2>
         ${createInfoRow('Vendor SSO Documentation URL', data.vendorSsoDocUrl)}
+        ${data.vendorDocFileName ? createFileRow(data.vendorDocFileName, data.vendorDocFile, data.vendorDocFileType) : ''}
         ${createInfoRow('SSO Protocol', data.ssoProtocol)}
         ${data.ssoProtocol === 'other' ? createInfoRow('Other Protocol', data.otherProtocol) : ''}
 
@@ -483,6 +577,21 @@ function createInfoRow(label, value) {
         <div class="info-row">
             <span class="label">${label}:</span>
             <span class="value">${displayValue}</span>
+        </div>
+    `;
+}
+
+// Helper function to create file download row in HTML report
+function createFileRow(fileName, fileData, fileType) {
+    return `
+        <div class="info-row">
+            <span class="label">Attached Documentation:</span>
+            <span class="value">
+                <a href="${fileData}" download="${fileName}" style="color: #0078d4; text-decoration: none; font-weight: 600;">
+                    📎 ${fileName}
+                </a>
+                <br><small style="color: #666;">Click to download attached file</small>
+            </span>
         </div>
     `;
 }

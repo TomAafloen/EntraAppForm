@@ -101,6 +101,20 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="vendorDocFile">Or Attach Documentation File</label>
+                    <input type="file" id="vendorDocFile" name="vendorDocFile" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg">
+                    <small class="file-info">
+                        <strong>⚠️ Important Limitations:</strong><br>
+                        • Maximum file size: 5MB (files are stored in your browser)<br>
+                        • Supported formats: PDF, Word, Text, Images (PNG/JPG)<br>
+                        • Files are stored ONLY on this device in browser storage<br>
+                        • Exported files will be embedded in HTML export or included as base64 in JSON export<br>
+                        • Clear browser data will delete attached files
+                    </small>
+                    <div id="fileStatus" class="file-status" style="display: none;"></div>
+                </div>
+
+                <div class="form-group">
                     <label for="ssoProtocol">SSO Protocol <span class="required">*</span></label>
                     <select id="ssoProtocol" name="ssoProtocol" required>
                         <option value="">-- Select Protocol --</option>
